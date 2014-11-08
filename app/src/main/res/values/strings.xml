@@ -11,5 +11,6 @@
     <string name="title_activity_create_edit_presentation">CreateEditPresentation</string>
     <string name="hello_world">Hello world!</string>
     <string name="presentation_name_hint">My presentation</string>
+    <string name="create_step_text">New Step</string>
 
 </resources>

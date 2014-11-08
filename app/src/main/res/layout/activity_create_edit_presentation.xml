@@ -20,12 +20,16 @@
         />
 
     <ListView
-        android:id="@+id/EnterPays_atomPaysList"
+        android:id="@+id/steps_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        tools:listitem="@layout/atom_pay_list_item"
-        android:layout_below="@+id/EnterPays_addAtomPayment" >
-
+        tools:listitem="@layout/steps_item"
+        android:layout_below="@+id/presentation_name" >
     </ListView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/steps_list"/>
 
 </RelativeLayout>
