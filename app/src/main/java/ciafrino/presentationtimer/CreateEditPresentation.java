@@ -1,9 +1,12 @@
 package ciafrino.presentationtimer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 public class CreateEditPresentation extends Activity {
@@ -32,5 +35,12 @@ public class CreateEditPresentation extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addNewStepOnClickHandler(View v) {
+//        Toast toast = Toast.makeText(this, "Clicked Edit", Toast.LENGTH_SHORT);
+//        toast.show();
+//        Intent intent = new Intent(this, CreateEditPresentation.class);
+//        startActivity(intent);
     }
 }

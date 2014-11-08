@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/"
+        android:id="@+id/create_step_text"
         android:layout_width="0sp"
         android:layout_height="fill_parent"
         android:layout_weight="2"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:contentDescription="@string/app_name"
-        android:onClick="removePresentationOnClickHandler"
+        android:onClick="addNewStepOnClickHandler"
         android:src="@android:drawable/ic_menu_add" />
 
 </LinearLayout>

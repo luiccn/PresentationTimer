@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="@string/EnterPays_addPayment"
+        android:text="@string/add_presentation_text"
         android:drawableLeft="@android:drawable/ic_input_add" />
 
     <Button

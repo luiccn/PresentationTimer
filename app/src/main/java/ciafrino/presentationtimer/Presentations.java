@@ -3,6 +3,7 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,8 @@ public class Presentations extends Activity {
     public void editPresentationOnClickHandler(View v) {
         Toast toast = Toast.makeText(this,"Clicked Edit",Toast.LENGTH_SHORT);
         toast.show();
+        Intent intent = new Intent(this, CreateEditPresentation.class);
+        startActivity(intent);
     }
 
 	public void removePresentationOnClickHandler(View v) {
