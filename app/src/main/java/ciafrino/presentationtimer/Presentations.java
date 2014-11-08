@@ -1,6 +1,8 @@
 package ciafrino.presentationtimer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class Presentations extends Activity {
 
 	private PresentationsListAdapter adapter;
+    private Presentation itemToRemove;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +31,26 @@ public class Presentations extends Activity {
         toast.show();
     }
 
-
-
 	public void removePresentationOnClickHandler(View v) {
-		Presentation itemToRemove = (Presentation)v.getTag();
-		adapter.remove(itemToRemove);
+
+        itemToRemove = (Presentation)v.getTag();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.remove(itemToRemove);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
 	}
 
 	private void setupListViewAdapter() {
