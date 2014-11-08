@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CreateEditPresentation"
+            android:label="@string/title_activity_create_edit_presentation"
+            android:parentActivityName=".Presentations" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ciafrino.presentationtimer.Presentations" />
+        </activity>
     </application>
 
 </manifest>

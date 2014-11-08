@@ -7,6 +7,9 @@
     <string name="EnterPays_addPayment">Add Presentation</string>
     <string name="text">Hello World</string>
     <string name="action_settings">Settings</string>
-    <string name="finish_presentation">Finish</string>
+    <string name="finish_presentation">Create new</string>
+    <string name="title_activity_create_edit_presentation">CreateEditPresentation</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="presentation_name_hint">My presentation</string>
 
 </resources>
