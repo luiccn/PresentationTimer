@@ -12,5 +12,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="presentation_name_hint">My presentation</string>
     <string name="create_step_text">New Step</string>
+    <string name="title_activity_create_step">CreateStep</string>
+    <string name="step_name_hint">My step</string>
+    <string name="step_text_hint"> Write some text here</string>
 
 </resources>

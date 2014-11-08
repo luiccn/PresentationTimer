@@ -20,7 +20,10 @@
             android:name=".CreateEditPresentation"
             android:label="@string/title_activity_create_edit_presentation"
             android:parentActivityName=".Presentations" >
-
+        </activity>
+        <activity
+            android:name=".CreateStep"
+            android:label="@string/title_activity_create_step" >
         </activity>
     </application>
 
