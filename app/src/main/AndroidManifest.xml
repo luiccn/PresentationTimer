@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ciafrino.presentationtimer" >
+    <service android:name="com.alexfu.countdownview.core.TimerService"/>
 
     <application
         android:allowBackup="true"
@@ -24,6 +25,10 @@
         <activity
             android:name=".CreateStep"
             android:label="@string/title_activity_create_step" >
+        </activity>
+        <activity
+            android:name=".PresentationScreen"
+            android:label="@string/title_activity_presentation_screen" >
         </activity>
     </application>
 

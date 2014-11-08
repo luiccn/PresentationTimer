@@ -15,5 +15,6 @@
     <string name="title_activity_create_step">CreateStep</string>
     <string name="step_name_hint">My step</string>
     <string name="step_text_hint"> Write some text here</string>
+    <string name="title_activity_presentation_screen">PresentationScreen</string>
 
 </resources>

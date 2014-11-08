@@ -34,6 +34,14 @@ public class Presentations extends Activity {
         startActivity(intent);
     }
 
+    public void PresentationScreenOnClickHandler(View v) {
+        Toast toast = Toast.makeText(this,"Clicked Presentation",Toast.LENGTH_SHORT);
+        toast.show();
+        Intent intent = new Intent(this, PresentationScreen.class);
+        startActivity(intent);
+    }
+
+
 	public void removePresentationOnClickHandler(View v) {
 
         itemToRemove = (Presentation)v.getTag();
