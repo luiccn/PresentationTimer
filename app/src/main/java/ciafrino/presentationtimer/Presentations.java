@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,13 +17,15 @@ public class Presentations extends Activity {
 
 	private PresentationsListAdapter adapter;
     private Presentation itemToRemove;
+    private PresentationDatabaseHelper databaseHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_view);
-		
-		setupListViewAdapter();
+        databaseHelper = new PresentationDatabaseHelper(this);
+
+        setupListViewAdapter();
 		
 		setupAddPaymentButton();
 	}
@@ -65,7 +68,15 @@ public class Presentations extends Activity {
 	}
 
 	private void setupListViewAdapter() {
-		adapter = new PresentationsListAdapter(Presentations.this, R.layout.atom_pay_list_item, new ArrayList<Presentation>());
+        ArrayList<Presentation> list = new ArrayList<Presentation>();
+        databaseHelper.insertPresentation("PresentationName1","stepName",0,1000,"Annotation1",0);
+        databaseHelper.insertPresentation("PresentationName2","stepName2",0,1000,"Annotation2",0);
+        Cursor cursor = databaseHelper.getAllData();
+        cursor.moveToFirst();
+        while(cursor.moveToNext()) {
+            list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
+        }
+        adapter = new PresentationsListAdapter(Presentations.this, R.layout.atom_pay_list_item,list);
 		ListView atomPaysListView = (ListView)findViewById(R.id.EnterPays_atomPaysList);
 		atomPaysListView.setAdapter(adapter);
 	}
