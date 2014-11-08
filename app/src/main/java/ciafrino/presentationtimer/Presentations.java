@@ -54,6 +54,7 @@ public class Presentations extends Activity {
                 .setMessage("Are you sure you want to delete this entry?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        databaseHelper.deletePresentation(String.valueOf(itemToRemove.getId()));
                         adapter.remove(itemToRemove);
                         adapter.notifyDataSetChanged();
                     }
@@ -73,6 +74,7 @@ public class Presentations extends Activity {
         databaseHelper.insertPresentation("PresentationName2","stepName2",0,1000,"Annotation2",0);
         Cursor cursor = databaseHelper.getAllData();
         cursor.moveToFirst();
+        list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
         while(cursor.moveToNext()) {
             list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
         }

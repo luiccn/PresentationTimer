@@ -63,6 +63,11 @@ public class PresentationDatabaseHelper {
 
             database.insert(TABLE_NAME, null, contentValues);
         }
+         public void deletePresentation(String id) {
+             String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";
+             database.execSQL(deleteQuery);
+         }
+
 
         public Cursor getAllData () {
 
