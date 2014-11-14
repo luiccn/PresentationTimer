@@ -8,13 +8,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bravebeard.circletimerview.CircleTimerView;
+
 
 public class PresentationScreen extends Activity {
+
+    private CircleTimerView timer;
+    boolean isRunning = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presentation_screen);
+
+        timer = (CircleTimerView) findViewById(R.id.timer);
+        timer.config(android.R.color.holo_orange_dark, android.R.color.holo_orange_light, 3, 5000, false);
+
+        timer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isRunning){
+                    timer.pause();
+                    isRunning = false;
+                }
+                else{
+                    timer.start();
+                    isRunning = true;
+                }
+            }
+        });
+
     }
 
 

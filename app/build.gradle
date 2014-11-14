@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.larswerkman:HoloColorPicker:1.4'
-
+    compile files('C:/Users/Avell B154 PLUS/PresentationTimer/libs/timer.jar')
 }
