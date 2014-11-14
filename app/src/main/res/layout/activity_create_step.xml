@@ -9,54 +9,54 @@
     tools:context="ciafrino.presentationtimer.CreateStep">
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:id="@+id/step_name"
         android:hint="@string/step_name_hint"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/step_name"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <EditText
+    <SeekBar
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/step_duration"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/picker"
+        android:layout_alignRight="@+id/step_text"
+        android:layout_alignEnd="@+id/step_text" />
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/step_text"
         android:hint="@string/step_text_hint"
-        android:layout_below="@+id/seekBar"
+        android:layout_below="@+id/step_name"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="22dp" />
+        android:layout_alignParentStart="true" />
 
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/finish_button"
         android:layout_centerHorizontal="true" />
 
-    <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/svbar"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/picker"
+        android:text="@string/finish_step"
+        android:id="@+id/finish_button"
+        android:onClick="FinishStepOnClickHandler"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
-
 
 
 </RelativeLayout>

@@ -70,8 +70,8 @@ public class Presentations extends Activity {
 
 	private void setupListViewAdapter() {
         ArrayList<Presentation> list = new ArrayList<Presentation>();
-        databaseHelper.insertPresentation("PresentationName1","stepName",0,1000,"Annotation1",0);
-        databaseHelper.insertPresentation("PresentationName2","stepName2",0,1000,"Annotation2",0);
+//        databaseHelper.insertPresentation("PresentationName1","stepName",0,1000,"Annotation1",0);
+//        databaseHelper.insertPresentation("PresentationName2","stepName2",0,1000,"Annotation2",0);
         Cursor cursor = databaseHelper.getAllData();
         cursor.moveToFirst();
         list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));

@@ -4,7 +4,7 @@
     <string name="app_name">Presentation Timer</string>
     <string name="EnterPays_atomPay_nameHint">nazwa platnosci</string>
     <string name="EnterPays_TextView_ZeroValue">0</string>
-    <string name="add_presentation_text">Add Presentation</string>
+    <string name="add_presentation_text">New Presentation</string>
     <string name="text">Hello World</string>
     <string name="action_settings">Settings</string>
     <string name="finish_presentation">Create new</string>
@@ -16,5 +16,6 @@
     <string name="step_name_hint">My step</string>
     <string name="step_text_hint"> Write some text here</string>
     <string name="title_activity_presentation_screen">PresentationScreen</string>
+    <string name="finish_step">Finish step</string>
 
 </resources>
