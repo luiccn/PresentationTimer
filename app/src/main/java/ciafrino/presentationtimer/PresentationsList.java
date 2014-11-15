@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 public class PresentationsList extends Activity {
 
 	private PresentationsListAdapter adapter;
-    private Presentation itemToRemove;
+    private Presentation item;
     private PresentationDatabaseHelper databaseHelper;
     EditText new_presentation_name;
 
@@ -34,12 +33,12 @@ public class PresentationsList extends Activity {
 	}
 
     public void editPresentationOnClickHandler(View v) {
-        TextView text = (TextView) findViewById(R.id.atomPay_name);
-        Toast toast = Toast.makeText(this,text.getText().toString(),Toast.LENGTH_SHORT);
-        toast.show();
 
+        item = (Presentation)v.getTag();
         Intent intent = new Intent(this, CreateEditPresentation.class);
-        intent.putExtra("presentation_name", text.getText().toString());
+        intent.putExtra("presentation_name", item.getName());
+        intent.putExtra("presentation_id", item.getId());
+
         startActivity(intent);
     }
 
@@ -53,7 +52,7 @@ public class PresentationsList extends Activity {
 
 	public void removePresentationOnClickHandler(View v) {
 
-        itemToRemove = (Presentation)v.getTag();
+        item = (Presentation)v.getTag();
 
 
         new AlertDialog.Builder(this)
@@ -61,8 +60,8 @@ public class PresentationsList extends Activity {
                 .setMessage("Are you sure you want to delete this entry?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseHelper.deletePresentation(String.valueOf(itemToRemove.getId()));
-                        adapter.remove(itemToRemove);
+                        databaseHelper.deletePresentation(String.valueOf(item.getId()));
+                        adapter.remove(item);
                         adapter.notifyDataSetChanged();
                     }
                 })
@@ -77,21 +76,18 @@ public class PresentationsList extends Activity {
 
 	private void setupListViewAdapter() {
         ArrayList<Presentation> list = new ArrayList<Presentation>();
-
         Cursor cursor = databaseHelper.getPresentationList();
         if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
+
             while (cursor.moveToNext()) {
-                System.out.println("Index:" + cursor.getColumnIndex("id"));
-
                 list.add(new Presentation(cursor.getInt(0) + cursor.getString(1), cursor.getInt(0)));
-
             }
         }
         adapter = new PresentationsListAdapter(PresentationsList.this, R.layout.atom_pay_list_item,list);
+
 		ListView atomPaysListView = (ListView)findViewById(R.id.EnterPays_atomPaysList);
 		atomPaysListView.setAdapter(adapter);
+        ((Values) getApplication()).setPresentations_list(list);
 	}
 	
 	private void newPresentationButtonHandler() {
@@ -108,7 +104,6 @@ public class PresentationsList extends Activity {
                 if(presentation.getId() == -1) throw new IllegalStateException();
 
 				adapter.insert(presentation, 0);
-                ((Values) getApplication()).setPresentations_list(presentation);
 
 			}
 		});

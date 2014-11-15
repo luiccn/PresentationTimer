@@ -2,9 +2,7 @@ package ciafrino.presentationtimer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
+
+import java.util.List;
 
 
 public class CreateStep extends Activity {
@@ -24,12 +23,24 @@ public class CreateStep extends Activity {
     EditText step_text;
     SeekBar step_duration;
     Presentation current_presentation;
+    PresentationDatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_step);
-
+        databaseHelper = new PresentationDatabaseHelper(this);
+        Intent intent = getIntent();
+        int presentation_id = intent.getIntExtra("presentation_id",-1);
+        List<Presentation> list = ((Values) getApplication()).getPresentations_list();
+        for (Presentation presentation : list){
+            System.out.println(presentation_id);
+            if(presentation.getId() == presentation_id){
+                current_presentation = presentation;
+                break;
+            }
+        }
          picker = (ColorPicker) findViewById(R.id.picker);
          finish_button = (Button) findViewById(R.id.finish_button);
          step_name = (EditText) findViewById(R.id.step_name);
@@ -51,14 +62,10 @@ public class CreateStep extends Activity {
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();
 
-        Step step = new Step(name, text, color, duration);
+        Step step = new Step(current_presentation.getStepNumber(),name, text, color, duration);
 
-
+        databaseHelper.insertNewStep(current_presentation,step);
         Log.d("Finish Step",String.valueOf(duration)+'\t'+name+'\t'+text+'\t'+String.valueOf(color)  );
-
-
-
-
 
         Intent intent = new Intent(this, CreateEditPresentation.class);
         startActivity(intent);

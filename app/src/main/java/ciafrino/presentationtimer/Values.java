@@ -15,7 +15,11 @@ public class Values extends Application {
         return presentations_list;
     }
 
-    public void setPresentations_list(Presentation presentation) {
+    public void setPresentations_list(List<Presentation> l){
+        presentations_list = l;
+    }
+
+    public void addPresentation(Presentation presentation) {
         this.presentations_list.add(presentation);
     }
 }

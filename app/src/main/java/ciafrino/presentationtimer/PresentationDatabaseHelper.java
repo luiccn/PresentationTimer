@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by lrmneves on 11/8/14.
  */
 public class PresentationDatabaseHelper {
-
-
-
 
 
         private static final String TAG = PresentationDatabaseHelper.class.getSimpleName();
@@ -48,7 +47,6 @@ public class PresentationDatabaseHelper {
             database = openHelper.getWritableDatabase();
 //            dropTable();
 //            createTable();
-            System.out.println("NOVO=====================");
             lastRow = getLastRow();
 
         }
@@ -88,12 +86,11 @@ public class PresentationDatabaseHelper {
             contentValues.put(PRESENTATION_TABLE_COLUMN_DURATION, 0);
             contentValues.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, "");
             contentValues.put(PRESENTATION_TABLE_COLUMN_COLOR, "");
-            System.out.println("INDEEEX" + lastRow);
 
             database.insert(TABLE_NAME, null, contentValues);
             return lastRow;
         }
-        public void insertPresentation (String presentationName, String stepName, int step,int duration,
+        public void insertPresentation (int id,String presentationName, String stepName, int step,int duration,
                                         String annotation,int color) {
 
             // we are using ContentValues to avoid sql format errors
@@ -111,7 +108,7 @@ public class PresentationDatabaseHelper {
 
             database.insert(TABLE_NAME, null, contentValues);
         }
-        public void updatePresentation(String presentationId ,String presentationName, String stepName, int step,int duration,
+        public void updatePresentation(int presentationId ,String presentationName, String stepName, int step,int duration,
                                        String annotation,int color){
             ContentValues values = new ContentValues();
             values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, presentationName);
@@ -121,7 +118,7 @@ public class PresentationDatabaseHelper {
             values.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, annotation);
             values.put(PRESENTATION_TABLE_COLUMN_COLOR, color);
 
-            database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?", new String[] {presentationId});
+            database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?", new String[] {String.valueOf(presentationId)});
         }
          public void deletePresentation(String id) {
              String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";
@@ -130,13 +127,31 @@ public class PresentationDatabaseHelper {
 
 
         public Cursor getPresentationList () {
-
-            String buildSQL = "SELECT "+PRESENTATION_TABLE_COLUMN_ID +"," +PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME +
+            String buildSQL = "SELECT DISTINCT "+PRESENTATION_TABLE_COLUMN_ID +"," +PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME +
                     " FROM " + TABLE_NAME;
 
             Log.d(TAG, "getAllData SQL: " + buildSQL);
 
             return database.rawQuery(buildSQL, null);
+        }
+        public ArrayList<Step> getPresentationSteps(Presentation p){
+            String buildSQL = "SELECT "+PRESENTATION_TABLE_COLUMN_STEP +"," +PRESENTATION_TABLE_COLUMN_STEP_NAME +
+                    ","+PRESENTATION_TABLE_COLUMN_ANNOTATION +","+ PRESENTATION_TABLE_COLUMN_COLOR +","+ PRESENTATION_TABLE_COLUMN_DURATION+
+                    "FROM " + TABLE_NAME +" WHERE "+ PRESENTATION_TABLE_COLUMN_ID +"= '" + p.getId() +"' ORDER BY " +
+                    PRESENTATION_TABLE_COLUMN_STEP +";";
+
+           Cursor c =  database.rawQuery(buildSQL, null);
+           ArrayList<Step> steps = new ArrayList<Step>();
+
+           if(c.getCount() != 0){
+               while(c.moveToNext()){
+                    steps.add(new Step(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3),c.getInt(4)));
+               }
+           }
+           return steps;
+        }
+        public void insertNewStep(Presentation p, Step s){
+            insertPresentation(p.getId(),p.getName(),s.getName(),s.getId(),s.getDuration(),s.getText(),s.getColor());
         }
 
         // this DatabaseOpenHelper class will actually be used to perform database related operation

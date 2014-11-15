@@ -1,27 +1,29 @@
 package ciafrino.presentationtimer;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Presentation implements Serializable {
 	private static final long serialVersionUID = -5435670920302756945L;
 	
 	private String name = "";
 	private int id = -1;
+    private ArrayList<Step> steps_list;
 
-    private List<Step> steps_list;
-
-    public List<Step> getSteps_list() {
+    public ArrayList<Step> getSteps_list() {
         return steps_list;
     }
-
-    public void setSteps_list(Step step) {
+    public void addStep(Step step){
         this.steps_list.add(step);
+    }
+    public void setSteps_list(ArrayList<Step> s) {
+        this.steps_list = s;
     }
 
 	public Presentation(String name, int id) {
 		this.setName(name);
 		this.setId(id);
+        steps_list = new ArrayList<Step>();
 	}
 
 	public String getName() {
@@ -32,11 +34,14 @@ public class Presentation implements Serializable {
 		this.name = name;
 	}
 
-	public double getId() {
+	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
+    public int getStepNumber(){
+        return steps_list.size();
+    }
 }

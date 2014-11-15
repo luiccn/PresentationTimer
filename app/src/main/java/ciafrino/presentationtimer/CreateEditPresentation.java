@@ -3,7 +3,6 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,19 +19,15 @@ public class CreateEditPresentation extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_edit_presentation);
         Intent intent = getIntent();
-        String presentation_name = intent.getStringExtra("presentation_name");
+        int presentation_id = intent.getIntExtra("presentation_id",-1);
         List<Presentation> list = ((Values) getApplication()).getPresentations_list();
         for (Presentation presentation : list){
-
-            if(presentation.getName().toString().equals(presentation_name)){
+            System.out.println(presentation_id);
+            if(presentation.getId() == presentation_id){
                   current_presentation = presentation;
-//                current_presentation.setId((int) presentation.getId());
-//                current_presentation.setName(presentation.getName().toString());
                 break;
             }
         }
-        Log.d("current presentation", current_presentation.getName().toString());
-
     }
 
 
@@ -59,7 +54,7 @@ public class CreateEditPresentation extends Activity {
         Toast toast = Toast.makeText(this, "Clicked New Step", Toast.LENGTH_SHORT);
         toast.show();
         Intent intent = new Intent(this, CreateStep.class);
-        intent.putExtra("presentation_name",current_presentation.getName().toString());
+        intent.putExtra("presentation_id",current_presentation.getId());
         startActivity(intent);
     }
 }

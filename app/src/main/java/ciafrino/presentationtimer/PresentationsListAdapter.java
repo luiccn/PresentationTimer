@@ -42,9 +42,12 @@ public class PresentationsListAdapter extends ArrayAdapter<Presentation> {
 		holder.removePaymentButton.setTag(holder.atomPayment);
 
 		holder.name = (TextView)row.findViewById(R.id.atomPay_name);
-		setNameTextChangeListener(holder);
+        holder.name.setTag(holder.atomPayment);
+        setNameTextChangeListener(holder);
 		holder.value = (ImageButton)row.findViewById(R.id.atomPay_value);
-		setValueTextListeners(holder);
+        holder.value.setTag(holder.atomPayment);
+
+        setValueTextListeners(holder);
 
 		row.setTag(holder);
 
