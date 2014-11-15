@@ -13,8 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class PresentationsList extends Activity {
@@ -32,7 +30,7 @@ public class PresentationsList extends Activity {
 
         setupListViewAdapter();
 		
-		setupAddPaymentButton();
+		newPresentationButtonHandler();
 	}
 
     public void editPresentationOnClickHandler(View v) {
@@ -57,6 +55,7 @@ public class PresentationsList extends Activity {
 
         itemToRemove = (Presentation)v.getTag();
 
+
         new AlertDialog.Builder(this)
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this entry?")
@@ -78,29 +77,39 @@ public class PresentationsList extends Activity {
 
 	private void setupListViewAdapter() {
         ArrayList<Presentation> list = new ArrayList<Presentation>();
-//        databaseHelper.insertPresentation("PresentationName1","stepName",0,1000,"Annotation1",0);
-//        databaseHelper.insertPresentation("PresentationName2","stepName2",0,1000,"Annotation2",0);
-        Cursor cursor = databaseHelper.getAllData();
-        cursor.moveToFirst();
-        list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
-        while(cursor.moveToNext()) {
+
+        Cursor cursor = databaseHelper.getPresentationList();
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
             list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
+            while (cursor.moveToNext()) {
+                System.out.println("Index:" + cursor.getColumnIndex("id"));
+
+                list.add(new Presentation(cursor.getInt(0) + cursor.getString(1), cursor.getInt(0)));
+
+            }
         }
         adapter = new PresentationsListAdapter(PresentationsList.this, R.layout.atom_pay_list_item,list);
 		ListView atomPaysListView = (ListView)findViewById(R.id.EnterPays_atomPaysList);
 		atomPaysListView.setAdapter(adapter);
 	}
 	
-	private void setupAddPaymentButton() {
+	private void newPresentationButtonHandler() {
         new_presentation_name = (EditText) findViewById(R.id.new_presentation_name);
+
 
 		findViewById(R.id.EnterPays_addAtomPayment).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+
                 Presentation presentation = new Presentation(new_presentation_name.getText().toString(), 0);
+                presentation.setId(databaseHelper.insertPresentation(presentation));
+                if(presentation.getId() == -1) throw new IllegalStateException();
+
 				adapter.insert(presentation, 0);
                 ((Values) getApplication()).setPresentations_list(presentation);
+
 			}
 		});
 	}
