@@ -8,16 +8,18 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Presentations extends Activity {
+public class PresentationsList extends Activity {
 
 	private PresentationsListAdapter adapter;
     private Presentation itemToRemove;
     private PresentationDatabaseHelper databaseHelper;
+    EditText new_presentation_name;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +80,19 @@ public class Presentations extends Activity {
         while(cursor.moveToNext()) {
             list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
         }
-        adapter = new PresentationsListAdapter(Presentations.this, R.layout.atom_pay_list_item,list);
+        adapter = new PresentationsListAdapter(PresentationsList.this, R.layout.atom_pay_list_item,list);
 		ListView atomPaysListView = (ListView)findViewById(R.id.EnterPays_atomPaysList);
 		atomPaysListView.setAdapter(adapter);
 	}
 	
 	private void setupAddPaymentButton() {
+        new_presentation_name = (EditText) findViewById(R.id.new_presentation_name);
+
 		findViewById(R.id.EnterPays_addAtomPayment).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				adapter.insert(new Presentation("", 0), 0);
+				adapter.insert(new Presentation(new_presentation_name.getText().toString(), 0), 0);
 			}
 		});
 	}

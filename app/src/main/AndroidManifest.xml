@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Presentations"
+            android:name=".PresentationsList"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
         <activity
             android:name=".CreateEditPresentation"
             android:label="@string/title_activity_create_edit_presentation"
-            android:parentActivityName=".Presentations" >
+            android:parentActivityName=".PresentationsList" >
         </activity>
         <activity
             android:name=".CreateStep"

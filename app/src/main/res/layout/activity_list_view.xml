@@ -11,7 +11,8 @@
         android:text="@string/add_presentation_text"
         android:drawableLeft="@android:drawable/ic_input_add"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ListView
         android:id="@+id/EnterPays_atomPaysList"
@@ -21,6 +22,19 @@
         android:layout_below="@+id/EnterPays_addAtomPayment" >
 
     </ListView>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/new_name_hint"
+        android:ems="10"
+        android:id="@+id/new_presentation_name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/EnterPays_addAtomPayment"
+        android:layout_toStartOf="@+id/EnterPays_addAtomPayment" />
 
 
 </RelativeLayout>
