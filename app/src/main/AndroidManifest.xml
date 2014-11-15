@@ -4,10 +4,12 @@
     <service android:name="com.alexfu.countdownview.core.TimerService"/>
 
     <application
+        android:name=".Values"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".PresentationsList"
             android:label="@string/app_name" >

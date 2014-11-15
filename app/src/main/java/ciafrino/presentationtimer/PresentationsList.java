@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -33,9 +36,12 @@ public class PresentationsList extends Activity {
 	}
 
     public void editPresentationOnClickHandler(View v) {
-        Toast toast = Toast.makeText(this,"Clicked Edit",Toast.LENGTH_SHORT);
+        TextView text = (TextView) findViewById(R.id.atomPay_name);
+        Toast toast = Toast.makeText(this,text.getText().toString(),Toast.LENGTH_SHORT);
         toast.show();
+
         Intent intent = new Intent(this, CreateEditPresentation.class);
+        intent.putExtra("presentation_name", text.getText().toString());
         startActivity(intent);
     }
 
@@ -92,7 +98,9 @@ public class PresentationsList extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				adapter.insert(new Presentation(new_presentation_name.getText().toString(), 0), 0);
+                Presentation presentation = new Presentation(new_presentation_name.getText().toString(), 0);
+				adapter.insert(presentation, 0);
+                ((Values) getApplication()).setPresentations_list(presentation);
 			}
 		});
 	}

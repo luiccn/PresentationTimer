@@ -23,6 +23,7 @@ public class CreateStep extends Activity {
     EditText step_name;
     EditText step_text;
     SeekBar step_duration;
+    Presentation current_presentation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class CreateStep extends Activity {
         int color = picker.getColor();
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();
+
+        Step step = new Step(name, text, color, duration);
 
 
         Log.d("Finish Step",String.valueOf(duration)+'\t'+name+'\t'+text+'\t'+String.valueOf(color)  );
