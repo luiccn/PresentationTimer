@@ -55,6 +55,11 @@ public class CreateStep extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, CreateEditPresentation.class);
+        startActivity(intent);
+    }
 
     public void FinishStepOnClickHandler(View v) {
         int duration = step_duration.getProgress();
