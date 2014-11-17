@@ -3,7 +3,6 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,9 +69,12 @@ public class CreateStep extends Activity {
         Step step = new Step(current_presentation.getStepNumber(),name, text, color, duration);
 
         databaseHelper.insertNewStep(current_presentation,step);
-        Log.d("Finish Step",String.valueOf(duration)+'\t'+name+'\t'+text+'\t'+String.valueOf(color)  );
+        System.out.println("Finish Step" + String.valueOf(duration)+'\t'+name+'\t'+text+'\t'+String.valueOf(color)  );
+        current_presentation.setSteps_list(databaseHelper.getPresentationSteps(current_presentation.getId()));
+        System.out.println("NUMBER" + current_presentation.getStepNumber());
 
         Intent intent = new Intent(this, CreateEditPresentation.class);
+        intent.putExtra("presentation_id",current_presentation.getId());
         startActivity(intent);
     }
 

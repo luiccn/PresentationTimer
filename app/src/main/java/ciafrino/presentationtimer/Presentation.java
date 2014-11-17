@@ -9,6 +9,7 @@ public class Presentation implements Serializable {
 	private String name = "";
 	private int id = -1;
     private ArrayList<Step> steps_list;
+    private int lastStep;
 
     public ArrayList<Step> getSteps_list() {
         return steps_list;
@@ -18,12 +19,18 @@ public class Presentation implements Serializable {
     }
     public void setSteps_list(ArrayList<Step> s) {
         this.steps_list = s;
+        for (Step step : s){
+            if (step.getId() > lastStep){
+                lastStep = step.getId();
+            }
+        }
     }
 
 	public Presentation(String name, int id) {
 		this.setName(name);
 		this.setId(id);
         steps_list = new ArrayList<Step>();
+        lastStep = 0;
 	}
 
 	public String getName() {
@@ -42,6 +49,6 @@ public class Presentation implements Serializable {
 		this.id = id;
 	}
     public int getStepNumber(){
-        return steps_list.size();
+        return ++lastStep;
     }
 }

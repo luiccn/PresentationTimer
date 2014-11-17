@@ -2,6 +2,7 @@ package ciafrino.presentationtimer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +21,7 @@ public class PresentationsList extends Activity {
     private Presentation item;
     private PresentationDatabaseHelper databaseHelper;
     EditText new_presentation_name;
+    Context c;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class PresentationsList extends Activity {
         if(cursor.getCount() != 0) {
 
             while (cursor.moveToNext()) {
-                list.add(new Presentation(cursor.getInt(0) + cursor.getString(1), cursor.getInt(0)));
+                list.add(new Presentation(cursor.getString(1), cursor.getInt(0)));
             }
         }
         adapter = new PresentationsListAdapter(PresentationsList.this, R.layout.atom_pay_list_item,list);
@@ -92,7 +94,7 @@ public class PresentationsList extends Activity {
 	
 	private void newPresentationButtonHandler() {
         new_presentation_name = (EditText) findViewById(R.id.new_presentation_name);
-
+        c = this;
 
 		findViewById(R.id.EnterPays_addAtomPayment).setOnClickListener(new OnClickListener() {
 			
@@ -103,9 +105,12 @@ public class PresentationsList extends Activity {
                 presentation.setId(databaseHelper.insertPresentation(presentation));
                 if(presentation.getId() == -1) throw new IllegalStateException();
 
-				adapter.insert(presentation, 0);
+                Intent intent = new Intent(c, CreateEditPresentation.class);
+                intent.putExtra("presentation_id",presentation.getId());
+                startActivity(intent);
+                adapter.insert(presentation, 0);
 
-			}
+            }
 		});
 	}
 }

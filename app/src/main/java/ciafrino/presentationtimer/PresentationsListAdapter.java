@@ -47,8 +47,6 @@ public class PresentationsListAdapter extends ArrayAdapter<Presentation> {
 		holder.value = (ImageButton)row.findViewById(R.id.atomPay_value);
         holder.value.setTag(holder.atomPayment);
 
-        setValueTextListeners(holder);
-
 		row.setTag(holder);
 
 		setupItem(holder);
@@ -80,25 +78,5 @@ public class PresentationsListAdapter extends ArrayAdapter<Presentation> {
 			@Override
 			public void afterTextChanged(Editable s) { }
 		});
-	}
-
-	private void setValueTextListeners(final AtomPaymentHolder holder) {
-//		holder.value.addTextChangedListener(new TextWatcher() {
-//
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				try{
-//					holder.atomPayment.setId(Integer.parseInt(s.toString()));
-//				}catch (NumberFormatException e) {
-//					Log.e(LOG_TAG, "error reading double value: " + s.toString());
-//				}
-//			}
-//
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-//
-//			@Override
-//			public void afterTextChanged(Editable s) { }
-//		});
 	}
 }

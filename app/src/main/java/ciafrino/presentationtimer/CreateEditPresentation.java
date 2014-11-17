@@ -1,12 +1,14 @@
 package ciafrino.presentationtimer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ import java.util.List;
 public class CreateEditPresentation extends Activity {
 
     Presentation current_presentation;
+    PresentationDatabaseHelper databaseHelper;
+    StepListAdapter adapter;
+    Step currentStep;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,15 +27,16 @@ public class CreateEditPresentation extends Activity {
         int presentation_id = intent.getIntExtra("presentation_id",-1);
         List<Presentation> list = ((Values) getApplication()).getPresentations_list();
         for (Presentation presentation : list){
-            System.out.println(presentation_id);
             if(presentation.getId() == presentation_id){
-                  current_presentation = presentation;
+                current_presentation = presentation;
                 break;
             }
         }
+        databaseHelper = new PresentationDatabaseHelper(this);
+
+        current_presentation.setSteps_list(databaseHelper.getPresentationSteps(presentation_id));
+        setupListViewAdapter();
     }
-
-
 
 
     @Override
@@ -51,10 +57,39 @@ public class CreateEditPresentation extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void removeStepOnClickHandler(View v){
+        currentStep = (Step)v.getTag();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        databaseHelper.deleteStep(current_presentation, currentStep);
+                        adapter.remove(currentStep);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    private void setupListViewAdapter() {
+
+        adapter = new StepListAdapter(CreateEditPresentation.this, R.layout.steps_item,
+                current_presentation.getSteps_list());
+
+        ListView stepListView = (ListView)findViewById(R.id.steps_list);
+        stepListView.setAdapter(adapter);
+    }
+
 
     public void addNewStepOnClickHandler(View v) {
-        Toast toast = Toast.makeText(this, "Clicked New Step", Toast.LENGTH_SHORT);
-        toast.show();
+
         Intent intent = new Intent(this, CreateStep.class);
         intent.putExtra("presentation_id",current_presentation.getId());
         startActivity(intent);
