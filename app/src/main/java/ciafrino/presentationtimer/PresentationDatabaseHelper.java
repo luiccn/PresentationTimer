@@ -143,6 +143,23 @@ public class PresentationDatabaseHelper {
             database.execSQL(deleteQuery);
         }
 
+        public Presentation getPresentaitonByID(int id){
+            String buildSQL = "SELECT DISTINCT " +PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME +
+                    " FROM " + TABLE_NAME + " WHERE "+PRESENTATION_TABLE_COLUMN_ID +"='" + id + "';";
+            Cursor c = database.rawQuery(buildSQL, null);
+            if(c.getCount() != 0){
+                c.moveToNext();
+
+                Presentation p = new Presentation(c.getString(0),id);
+                p.setSteps_list(getPresentationSteps(id));
+
+                return p;
+            }
+            else{
+                return null;
+            }
+
+        }
 
         public Cursor getPresentationList () {
             String buildSQL = "SELECT DISTINCT "+PRESENTATION_TABLE_COLUMN_ID +"," +PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME +
@@ -160,9 +177,7 @@ public class PresentationDatabaseHelper {
 
            Cursor c =  database.rawQuery(buildSQL, null);
            ArrayList<Step> steps = new ArrayList<Step>();
-           System.out.println("getting steps");
            if(c.getCount() != 0){
-               System.out.println("has steps");
 
                while(c.moveToNext()){
                    steps.add(new Step(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3),c.getInt(4)));
