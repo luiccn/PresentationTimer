@@ -24,7 +24,8 @@ public class PresentationScreen extends Activity {
     ProgressBar full_progress;
     ProgressBar partial_progress;
     boolean running = true;
-
+    Step step;
+    Iterator<Step> iter;
     Timer full_timer;
     Timer partial_timer;
     long dur;
@@ -67,48 +68,66 @@ public class PresentationScreen extends Activity {
 
         full_timer.create();
 
-
-
-
-
-
     }
 
     public void PausePresentationOnClickHandler(View v) {
-        full_timer.pause();
+        partial_timer.pause();
         full_timer.pause();
     }
+    public void setTimer(){
 
-    public void StartPresentationOnClickHandler(View v) throws InterruptedException {
-        for(final Step step : stepList){
+        getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
 
-            getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
+        Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
 
-            Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
-
-            partial_timer = new Timer(step.getDuration()*1000, 1, true) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    long dur = 1000 * step.getDuration();
-                    int mp = (int) (100*(dur-millisUntilFinished)/dur);
-                    if(mp == 99){mp+=1;};
-
-                    partial_progress.setProgress(mp);
-
-                    }
-
-                @Override
-                public void onFinish() {
-                    running = false;
+        partial_timer = new Timer(step.getDuration() * 1000, 1, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long dur = 1000 * step.getDuration();
+                int mp = (int) (100 * (dur - millisUntilFinished) / dur);
+                if (mp == 99) {
+                    mp += 1;
                 }
-            };
-            partial_timer.create();
-            full_timer.resume();
 
+
+                partial_progress.setProgress(mp);
+
+            }
+
+            @Override
+            public void onFinish() {
+                if(iter.hasNext()) {
+                    step = iter.next();
+                    setTimer();
+                }
+            }
+        };
+        if(partial_timer.isPaused()){
+            partial_timer.resume();
+        }
+        else {
+            partial_timer.create();
+        }
+        if(full_timer.totalCountdown() != full_timer.timePassed()) {
+            full_timer.resume();
+        }
+        else{
+            full_timer.create();
+        }
+    }
+    public void StartPresentationOnClickHandler(View v) throws InterruptedException {
+
+
+            iter = stepList.iterator();
+
+            if(iter.hasNext()) {
+                step = iter.next();
+            }
+            setTimer();
 
         }
 
-    }
+
 
 
 
