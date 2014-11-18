@@ -143,7 +143,7 @@ public class PresentationDatabaseHelper {
             database.execSQL(deleteQuery);
         }
 
-        public Presentation getPresentaitonByID(int id){
+        public Presentation getPresentationbyID(int id){
             String buildSQL = "SELECT DISTINCT " +PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME +
                     " FROM " + TABLE_NAME + " WHERE "+PRESENTATION_TABLE_COLUMN_ID +"='" + id + "';";
             Cursor c = database.rawQuery(buildSQL, null);

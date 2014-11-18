@@ -25,15 +25,8 @@ public class CreateEditPresentation extends Activity {
         setContentView(R.layout.activity_create_edit_presentation);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
-        List<Presentation> list = ((Values) getApplication()).getPresentations_list();
-        for (Presentation presentation : list){
-            if(presentation.getId() == presentation_id){
-                current_presentation = presentation;
-                break;
-            }
-        }
         databaseHelper = new PresentationDatabaseHelper(this);
-
+        current_presentation = databaseHelper.getPresentationbyID(presentation_id);
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(presentation_id));
         setupListViewAdapter();
     }
@@ -57,6 +50,12 @@ public class CreateEditPresentation extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PresentationsList.class);
+        startActivity(intent);    }
+
     public void removeStepOnClickHandler(View v){
         currentStep = (Step)v.getTag();
 

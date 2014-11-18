@@ -20,15 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/step_duration"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/picker"
-        android:layout_alignRight="@+id/step_text"
-        android:layout_alignEnd="@+id/step_text" />
+
 
     <EditText
         android:layout_width="match_parent"
@@ -36,14 +28,33 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/step_text"
+        android:layout_below="@id/step_name"
         android:hint="@string/step_text_hint"
-        android:layout_below="@+id/step_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/step_duration"
+        android:layout_below="@id/step_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/step_text"
+        android:layout_alignEnd="@+id/step_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/step_duration_number"
+        android:layout_below="@+id/step_duration"
+        android:layout_centerHorizontal="true" />
+
 
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/picker"
+        android:layout_below="@id/step_duration_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/finish_button"
@@ -57,6 +68,8 @@
         android:onClick="FinishStepOnClickHandler"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+
 
 
 </RelativeLayout>

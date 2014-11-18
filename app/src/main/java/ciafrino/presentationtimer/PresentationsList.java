@@ -47,7 +47,9 @@ public class PresentationsList extends Activity {
     public void PresentationScreenOnClickHandler(View v) {
         Toast toast = Toast.makeText(this,"Clicked Presentation",Toast.LENGTH_SHORT);
         toast.show();
+        item = (Presentation)v.getTag();
         Intent intent = new Intent(this, PresentationScreen.class);
+        intent.putExtra("presentation_id", item.getId());
         startActivity(intent);
     }
 

@@ -3,14 +3,19 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,6 +28,8 @@ public class CreateStep extends Activity {
     SeekBar step_duration;
     Presentation current_presentation;
     PresentationDatabaseHelper databaseHelper;
+    TextView step_duration_number;
+    int p;
 
 
     @Override
@@ -32,27 +39,43 @@ public class CreateStep extends Activity {
         databaseHelper = new PresentationDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
-        List<Presentation> list = ((Values) getApplication()).getPresentations_list();
-        for (Presentation presentation : list){
-            System.out.println(presentation_id);
-            if(presentation.getId() == presentation_id){
-                current_presentation = presentation;
-                break;
-            }
-        }
+
+        current_presentation = databaseHelper.getPresentationbyID(presentation_id);
+
+
+
          picker = (ColorPicker) findViewById(R.id.picker);
          finish_button = (Button) findViewById(R.id.finish_button);
          step_name = (EditText) findViewById(R.id.step_name);
          step_text = (EditText) findViewById(R.id.step_text);
          step_duration = (SeekBar) findViewById(R.id.step_duration);
+        step_duration_number = (TextView) findViewById(R.id.step_duration_number);
 
-        picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
+
+        step_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
-            public void onColorChanged(int i) {
-                getWindow().getDecorView().getRootView().setBackgroundColor(i);
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                p=progress;
+                step_duration_number.setText(String.valueOf(p*3));
+
             }
         });
+
+
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -69,7 +92,7 @@ public class CreateStep extends Activity {
         Step step = new Step(current_presentation.getStepNumber(),name, text, color, duration);
 
         databaseHelper.insertNewStep(current_presentation,step);
-        System.out.println("Finish Step" + String.valueOf(duration)+'\t'+name+'\t'+text+'\t'+String.valueOf(color)  );
+        System.out.println("Finish Step" + String.valueOf(duration) + '\t' + name + '\t' + text + '\t' + String.valueOf(color));
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(current_presentation.getId()));
         System.out.println("NUMBER" + current_presentation.getStepNumber());
 
