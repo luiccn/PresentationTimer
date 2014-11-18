@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import java.util.Iterator;
 import java.util.List;
 
-import static android.os.SystemClock.sleep;
-
 
 public class PresentationScreen extends Activity {
 
@@ -26,8 +24,8 @@ public class PresentationScreen extends Activity {
     boolean running = true;
     Step step;
     Iterator<Step> iter;
-    Timer full_timer;
-    Timer partial_timer;
+    Timer full_timer = null;
+    Timer partial_timer = null;
     long dur;
 
     @Override
@@ -48,6 +46,24 @@ public class PresentationScreen extends Activity {
             full_duration = full_duration+step.getDuration();
         }
 
+        setTotalTimer();
+
+
+    }
+
+    public void PausePresentationOnClickHandler(View v) {
+        if(full_timer != null && partial_timer != null && full_timer.isPaused()) {
+            partial_timer.resume();
+            full_timer.resume();
+        }
+        else if (full_timer != null && partial_timer != null){
+            partial_timer.pause();
+            full_timer.pause();
+
+        }
+    }
+
+    public void setTotalTimer(){
         full_timer = new Timer(full_duration*1000, 1, false) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -65,65 +81,61 @@ public class PresentationScreen extends Activity {
 
             }
         };
-
         full_timer.create();
 
-    }
 
-    public void PausePresentationOnClickHandler(View v) {
-        partial_timer.pause();
-        full_timer.pause();
+
     }
-    public void setTimer(){
+    public void setPartialTimer(){
 
         getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
 
         Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
 
-        partial_timer = new Timer(step.getDuration() * 1000, 1, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long dur = 1000 * step.getDuration();
-                int mp = (int) (100 * (dur - millisUntilFinished) / dur);
-                if (mp == 99) {
-                    mp += 1;
+        if(partial_timer == null || partial_progress.getProgress() == partial_progress.getMax()) {
+            partial_timer = new Timer(step.getDuration() * 1000, 1, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long dur = 1000 * step.getDuration();
+                    int mp = (int) (100 * (dur - millisUntilFinished) / dur);
+                    if (mp == 99) {
+                        mp += 1;
+                    }
+
+                    partial_progress.setProgress(mp);
+
                 }
 
-
-                partial_progress.setProgress(mp);
-
-            }
-
-            @Override
-            public void onFinish() {
-                if(iter.hasNext()) {
-                    step = iter.next();
-                    setTimer();
+                @Override
+                public void onFinish() {
+                    if (iter.hasNext()) {
+                        step = iter.next();
+                        setPartialTimer();
+                    }
                 }
-            }
-        };
-        if(partial_timer.isPaused()){
-            partial_timer.resume();
-        }
-        else {
+            };
             partial_timer.create();
-        }
-        if(full_timer.totalCountdown() != full_timer.timePassed()) {
             full_timer.resume();
         }
-        else{
-            full_timer.create();
-        }
+
     }
     public void StartPresentationOnClickHandler(View v) throws InterruptedException {
 
-
             iter = stepList.iterator();
-
+            step = null;
             if(iter.hasNext()) {
                 step = iter.next();
             }
-            setTimer();
+            if (partial_timer != null){
+                partial_timer.cancel();
+                partial_timer = null;
+            }
+            if (full_timer != null){
+                full_timer.cancel();
+                full_timer = null;
+            }
+            setTotalTimer();
+            setPartialTimer();
 
         }
 

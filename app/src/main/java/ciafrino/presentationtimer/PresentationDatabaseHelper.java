@@ -85,7 +85,7 @@ public class PresentationDatabaseHelper {
 
             contentValues.put(PRESENTATION_TABLE_COLUMN_ID,++lastRow);
             contentValues.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, p.getName());
-            contentValues.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, "");
+            contentValues.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, "Intro");
             contentValues.put(PRESENTATION_TABLE_COLUMN_STEP, 1);
             contentValues.put(PRESENTATION_TABLE_COLUMN_DURATION, 0);
             contentValues.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, "");
