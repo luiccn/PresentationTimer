@@ -6,19 +6,29 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-//import com.bravebeard.circletimerview.CircleTimerView;
+import static android.os.SystemClock.sleep;
 
 
 public class PresentationScreen extends Activity {
 
-//    private CircleTimerView timer;
-//    boolean isRunning = false;
+
     Presentation current_presentation;
     List<Step> stepList;
+    int full_duration = 0;
+    ProgressBar full_progress;
+    ProgressBar partial_progress;
+    boolean running = true;
+
+    Timer full_timer;
+    Timer partial_timer;
+    long dur;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,38 +36,80 @@ public class PresentationScreen extends Activity {
         PresentationDatabaseHelper databaseHelper = new PresentationDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
+        full_progress = (ProgressBar) findViewById(R.id.progressBar1);
+        partial_progress = (ProgressBar) findViewById(R.id.progressBar2);
 
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
         Log.d("Presentation screen", current_presentation.getName().toString());
         stepList = current_presentation.getSteps_list();
         for (Step step : stepList){
-            Log.d("Presentation screen", "step: "+step.getName().toString()+"color "+step.getText().toString()+" duration: "+String.valueOf(step.getDuration()));
+            Log.d("Presentation screen", "step: " + step.getName().toString() + "color " + step.getText().toString() + " duration: " + String.valueOf(step.getDuration()));
+            full_duration = full_duration+step.getDuration();
+        }
+
+        full_timer = new Timer(full_duration*1000, 1, false) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long dur = 1000*full_duration;
+                int mp = (int) (100*(dur-millisUntilFinished)/dur);
+
+                if(mp == 99){mp+=1;};
+
+                full_progress.setProgress(mp);
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+
+        full_timer.create();
+
+
+
+
+
+
+    }
+
+    public void PausePresentationOnClickHandler(View v) {
+        full_timer.pause();
+        full_timer.pause();
+    }
+
+    public void StartPresentationOnClickHandler(View v) throws InterruptedException {
+        for(final Step step : stepList){
+
             getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
+
+            Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
+
+            partial_timer = new Timer(step.getDuration()*1000, 1, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long dur = 1000 * step.getDuration();
+                    int mp = (int) (100*(dur-millisUntilFinished)/dur);
+                    if(mp == 99){mp+=1;};
+
+                    partial_progress.setProgress(mp);
+
+                    }
+
+                @Override
+                public void onFinish() {
+                    running = false;
+                }
+            };
+            partial_timer.create();
+            full_timer.resume();
 
 
         }
 
-
-
-//        timer = (CircleTimerView) findViewById(R.id.timer);
-//        timer.config(android.R.color.holo_orange_dark, android.R.color.holo_orange_light, 3, 5000, false);
-//
-//        timer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (isRunning){
-//                    timer.pause();
-//                    isRunning = false;
-//                }
-//                else{
-//                    timer.start();
-//                    isRunning = true;
-//                }
-//            }
-//        });
-
     }
+
 
 
     @Override

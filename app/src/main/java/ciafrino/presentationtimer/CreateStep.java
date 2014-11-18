@@ -84,7 +84,7 @@ public class CreateStep extends Activity {
     }
 
     public void FinishStepOnClickHandler(View v) {
-        int duration = step_duration.getProgress();
+        int duration = p*3;
         int color = picker.getColor();
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();

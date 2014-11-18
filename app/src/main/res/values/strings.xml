@@ -18,5 +18,8 @@
     <string name="title_activity_presentation_screen">PresentationScreen</string>
     <string name="finish_step">Finish step</string>
     <string name="new_name_hint">New presentation name</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
 
 </resources>
