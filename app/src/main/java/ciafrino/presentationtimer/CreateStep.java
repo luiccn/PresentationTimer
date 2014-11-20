@@ -3,8 +3,6 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +13,6 @@ import android.widget.TextView;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
-
 
 public class CreateStep extends Activity {
     ColorPicker picker;
@@ -26,6 +20,7 @@ public class CreateStep extends Activity {
     EditText step_name;
     EditText step_text;
     SeekBar step_duration;
+    Step current_step;
     Presentation current_presentation;
     PresentationDatabaseHelper databaseHelper;
     TextView step_duration_number;
@@ -39,18 +34,25 @@ public class CreateStep extends Activity {
         databaseHelper = new PresentationDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
-
+        int step_id = intent.getIntExtra("step_id",-1);
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
 
 
 
-         picker = (ColorPicker) findViewById(R.id.picker);
-         finish_button = (Button) findViewById(R.id.finish_button);
-         step_name = (EditText) findViewById(R.id.step_name);
-         step_text = (EditText) findViewById(R.id.step_text);
-         step_duration = (SeekBar) findViewById(R.id.step_duration);
+        picker = (ColorPicker) findViewById(R.id.picker);
+        finish_button = (Button) findViewById(R.id.finish_button);
+        step_name = (EditText) findViewById(R.id.step_name);
+        step_text = (EditText) findViewById(R.id.step_text);
+        step_duration = (SeekBar) findViewById(R.id.step_duration);
         step_duration_number = (TextView) findViewById(R.id.step_duration_number);
 
+        current_step =  databaseHelper.getStep(presentation_id,step_id);
+        if(current_step != null){
+            picker.setColor(current_step.getColor());
+            step_name.setText(current_step.getName());
+            step_text.setText(current_step.getText());
+            step_duration_number.setText(current_step.getDuration());
+        }
 
         step_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -80,6 +82,7 @@ public class CreateStep extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, CreateEditPresentation.class);
+        intent.putExtra("presentation_id",current_presentation.getId());
         startActivity(intent);
     }
 
@@ -88,13 +91,17 @@ public class CreateStep extends Activity {
         int color = picker.getColor();
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();
+        if (current_step == null) {
+            Step step = new Step(current_presentation.getStepNumber(), name, text, color, duration);
 
-        Step step = new Step(current_presentation.getStepNumber(),name, text, color, duration);
-
-        databaseHelper.insertNewStep(current_presentation,step);
-        System.out.println("Finish Step" + String.valueOf(duration) + '\t' + name + '\t' + text + '\t' + String.valueOf(color));
+            databaseHelper.insertNewStep(current_presentation, step);
+        }
+        else{
+            databaseHelper.updatePresentation(current_presentation.getId(),current_presentation.getName(),
+                    current_step.getName(),current_step.getId(),current_step.getDuration(),current_step.getText(),
+                    current_step.getColor());
+        }
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(current_presentation.getId()));
-        System.out.println("NUMBER" + current_presentation.getStepNumber());
 
         Intent intent = new Intent(this, CreateEditPresentation.class);
         intent.putExtra("presentation_id",current_presentation.getId());
@@ -107,6 +114,7 @@ public class CreateStep extends Activity {
         getMenuInflater().inflate(R.menu.create_step, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

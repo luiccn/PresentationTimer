@@ -39,7 +39,7 @@ public class StepListAdapter extends ArrayAdapter<Step> {
 		holder.removeStepButton = (ImageButton)row.findViewById(R.id.remove_step);
         holder.removeStepButton.setTag(holder.step);
 
-		holder.name = (TextView)row.findViewById(R.id.create_step_text);
+		holder.name = (TextView)row.findViewById(R.id.step_text);
         holder.name.setTag(holder.step);
 
 		row.setTag(holder);

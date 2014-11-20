@@ -9,8 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-
-import java.util.List;
+import android.widget.Toast;
 
 
 public class CreateEditPresentation extends Activity {
@@ -38,12 +37,18 @@ public class CreateEditPresentation extends Activity {
         getMenuInflater().inflate(R.menu.create_edit_presentation, menu);
         return true;
     }
-
+    public void StepNameOnClickHandler(View v) {
+        Toast toast = Toast.makeText(this,"Clicked Step",Toast.LENGTH_SHORT);
+        toast.show();
+        currentStep = (Step)v.getTag();
+        Intent intent = new Intent(this, CreateStep.class);
+        intent.putExtra("step_id", currentStep.getId());
+        intent.putExtra("presentation_id",current_presentation.getId());
+        startActivity(intent);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -91,6 +96,7 @@ public class CreateEditPresentation extends Activity {
 
         Intent intent = new Intent(this, CreateStep.class);
         intent.putExtra("presentation_id",current_presentation.getId());
+        intent.putExtra("step_id",-1);
         startActivity(intent);
     }
 }

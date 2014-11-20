@@ -39,14 +39,16 @@ public class PresentationScreen extends Activity {
         PresentationDatabaseHelper databaseHelper = new PresentationDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
-        full_progress = (ProgressBar) findViewById(R.id.progressBar1);
-        partial_progress = (ProgressBar) findViewById(R.id.progressBar2);
+        full_progress = (ProgressBar) findViewById(R.id.totalProgressBar);
+        partial_progress = (ProgressBar) findViewById(R.id.stepProgressBar);
 
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
-        TextView t = (TextView) findViewById(R.id.presentationName);
-        t.setText(current_presentation.getName());
+        TextView name = (TextView) findViewById(R.id.presentationName);
+        name.setText(current_presentation.getName());
         Log.d("Presentation screen", current_presentation.getName().toString());
         stepList = current_presentation.getSteps_list();
+
+
         for (Step step : stepList){
             Log.d("Presentation screen", "step: " + step.getName().toString() + "color " + step.getText().toString() + " duration: " + String.valueOf(step.getDuration()));
             full_duration = full_duration+step.getDuration();
@@ -117,12 +119,17 @@ public class PresentationScreen extends Activity {
                     if (iter.hasNext()) {
                         step = iter.next();
                         v.vibrate(500);
+                        TextView sname = (TextView) findViewById(R.id.stepName);
+                        sname.setText(step.getName());
+                        TextView description  = (TextView) findViewById(R.id.description);
+                        description.setText(step.getText());
 
                         setPartialTimer();
                     }
                     else{
                         v.vibrate(2000);
-
+                        TextView sname = (TextView) findViewById(R.id.stepName);
+                        sname.setText("Your presentation has ended");
                     }
                 }
             };
@@ -137,6 +144,11 @@ public class PresentationScreen extends Activity {
             step = null;
             if(iter.hasNext()) {
                 step = iter.next();
+                TextView sname = (TextView) findViewById(R.id.stepName);
+                sname.setText(step.getName());
+                TextView description  = (TextView) findViewById(R.id.description);
+                description.setText(step.getText());
+
             }
             if (partial_timer != null){
                 partial_timer.cancel();

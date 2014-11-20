@@ -131,7 +131,8 @@ public class PresentationDatabaseHelper {
             values.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, annotation);
             values.put(PRESENTATION_TABLE_COLUMN_COLOR, color);
 
-            database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?", new String[] {String.valueOf(presentationId)});
+            database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ? AND "+
+                    PRESENTATION_TABLE_COLUMN_STEP +" =?", new String[] {String.valueOf(presentationId),String.valueOf(step)});
         }
          public void deletePresentation(String id) {
              String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";
@@ -188,6 +189,25 @@ public class PresentationDatabaseHelper {
         }
         public void insertNewStep(Presentation p, Step s){
             insertPresentation(p.getId(),p.getName(),s.getName(),s.getId(),s.getDuration(),s.getText(),s.getColor());
+        }
+
+        public Step getStep(int presentation_id,int step_id){
+            if (step_id == -1) return null;
+            String buildSQL = "SELECT DISTINCT " +"," +PRESENTATION_TABLE_COLUMN_STEP_NAME +
+                    ","+PRESENTATION_TABLE_COLUMN_ANNOTATION +","+ PRESENTATION_TABLE_COLUMN_COLOR +","+ PRESENTATION_TABLE_COLUMN_DURATION +
+                    " FROM " + TABLE_NAME + " WHERE "+PRESENTATION_TABLE_COLUMN_ID +"='" + presentation_id + "' AND " +
+                            PRESENTATION_TABLE_COLUMN_STEP + "= '"+ step_id +"';";
+            Cursor c = database.rawQuery(buildSQL, null);
+            if(c.getCount() != 0){
+                c.moveToNext();
+
+               Step s = new Step(step_id,c.getString(0),c.getString(1),c.getInt(2),c.getInt(3));
+
+                return s;
+            }
+            else{
+                return null;
+            }
         }
 
 
