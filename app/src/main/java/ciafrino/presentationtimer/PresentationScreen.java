@@ -60,13 +60,16 @@ public class PresentationScreen extends Activity {
     }
 
     public void PausePresentationOnClickHandler(View v) {
+        TextView text = (TextView) findViewById(R.id.start_button);
         if(full_timer != null && partial_timer != null && full_timer.isPaused()) {
             partial_timer.resume();
             full_timer.resume();
+            text.setText("Pause");
         }
         else if (full_timer != null && partial_timer != null){
             partial_timer.pause();
             full_timer.pause();
+            text.setText("Resume");
 
         }
     }

@@ -5,6 +5,7 @@
     android:orientation="horizontal" >
 
     <TextView
+        android:clickable="true"
         android:id="@+id/step_text"
         android:layout_width="0sp"
         android:layout_height="fill_parent"
