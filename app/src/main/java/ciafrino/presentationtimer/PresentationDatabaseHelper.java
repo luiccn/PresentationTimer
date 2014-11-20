@@ -35,14 +35,20 @@ public class PresentationDatabaseHelper {
         private static final String PRESENTATION_TABLE_COLUMN_COLOR = "color";
 
 
-
+    private static PresentationDatabaseHelper thisDatabase = null;
     private DatabaseOpenHelper openHelper;
     private SQLiteDatabase database;
     private int lastRow = -1;
 
+        public static PresentationDatabaseHelper getDatabaseHelper(Context aContext){
+            if (thisDatabase == null){
+                thisDatabase = new PresentationDatabaseHelper(aContext);
+            }
+            return thisDatabase;
+        }
         // this is a wrapper class. that means, from outside world, anyone will communicate with PersonDatabaseHelper,
         // but under the hood actually DatabaseOpenHelper class will perform database CRUD operations
-        public PresentationDatabaseHelper(Context aContext) {
+        private PresentationDatabaseHelper(Context aContext) {
 
             openHelper = new DatabaseOpenHelper(aContext);
             database = openHelper.getWritableDatabase();
@@ -126,13 +132,13 @@ public class PresentationDatabaseHelper {
             ContentValues values = new ContentValues();
             values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, presentationName);
             values.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, stepName);
-            values.put(PRESENTATION_TABLE_COLUMN_STEP, step);
             values.put(PRESENTATION_TABLE_COLUMN_DURATION, duration);
             values.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, annotation);
             values.put(PRESENTATION_TABLE_COLUMN_COLOR, color);
 
             database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ? AND "+
-                    PRESENTATION_TABLE_COLUMN_STEP +" =?", new String[] {String.valueOf(presentationId),String.valueOf(step)});
+                    PRESENTATION_TABLE_COLUMN_STEP +" = ?", new String[] {String.valueOf(presentationId),String.valueOf(step)});
+            Log.d("New NAME", stepName);
         }
          public void deletePresentation(String id) {
              String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";

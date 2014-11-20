@@ -24,7 +24,7 @@ public class CreateEditPresentation extends Activity {
         setContentView(R.layout.activity_create_edit_presentation);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
-        databaseHelper = new PresentationDatabaseHelper(this);
+        databaseHelper = PresentationDatabaseHelper.getDatabaseHelper(this);
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(presentation_id));
         setupListViewAdapter();

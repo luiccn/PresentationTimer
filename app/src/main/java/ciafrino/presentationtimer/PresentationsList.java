@@ -26,7 +26,7 @@ public class PresentationsList extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_view);
-        databaseHelper = new PresentationDatabaseHelper(this);
+        databaseHelper = PresentationDatabaseHelper.getDatabaseHelper(this);
 
         setupListViewAdapter();
 		

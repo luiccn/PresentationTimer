@@ -36,7 +36,7 @@ public class PresentationScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presentation_screen);
-        PresentationDatabaseHelper databaseHelper = new PresentationDatabaseHelper(this);
+        PresentationDatabaseHelper databaseHelper = PresentationDatabaseHelper.getDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
         full_progress = (ProgressBar) findViewById(R.id.totalProgressBar);

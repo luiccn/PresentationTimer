@@ -32,7 +32,7 @@ public class CreateStep extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_step);
-        databaseHelper = new PresentationDatabaseHelper(this);
+        databaseHelper = PresentationDatabaseHelper.getDatabaseHelper(this);
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
         int step_id = intent.getIntExtra("step_id",-1);
@@ -101,8 +101,8 @@ public class CreateStep extends Activity {
         }
         else{
             databaseHelper.updatePresentation(current_presentation.getId(),current_presentation.getName(),
-                    current_step.getName(),current_step.getId(),current_step.getDuration(),current_step.getText(),
-                    current_step.getColor());
+                    name,current_step.getId(),duration,text,
+                    color);
         }
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(current_presentation.getId()));
 
