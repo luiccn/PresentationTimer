@@ -193,7 +193,7 @@ public class PresentationDatabaseHelper {
 
         public Step getStep(int presentation_id,int step_id){
             if (step_id == -1) return null;
-            String buildSQL = "SELECT DISTINCT " +"," +PRESENTATION_TABLE_COLUMN_STEP_NAME +
+            String buildSQL = "SELECT DISTINCT " +PRESENTATION_TABLE_COLUMN_STEP_NAME +
                     ","+PRESENTATION_TABLE_COLUMN_ANNOTATION +","+ PRESENTATION_TABLE_COLUMN_COLOR +","+ PRESENTATION_TABLE_COLUMN_DURATION +
                     " FROM " + TABLE_NAME + " WHERE "+PRESENTATION_TABLE_COLUMN_ID +"='" + presentation_id + "' AND " +
                             PRESENTATION_TABLE_COLUMN_STEP + "= '"+ step_id +"';";

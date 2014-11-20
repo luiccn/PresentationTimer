@@ -3,6 +3,7 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ public class CreateStep extends Activity {
         Intent intent = getIntent();
         int presentation_id = intent.getIntExtra("presentation_id",-1);
         int step_id = intent.getIntExtra("step_id",-1);
+
+        Log.d("ids",String.valueOf(step_id));
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
 
 
@@ -51,7 +54,7 @@ public class CreateStep extends Activity {
             picker.setColor(current_step.getColor());
             step_name.setText(current_step.getName());
             step_text.setText(current_step.getText());
-            step_duration_number.setText(current_step.getDuration());
+            step_duration_number.setText(String.valueOf(current_step.getDuration()));
         }
 
         step_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
