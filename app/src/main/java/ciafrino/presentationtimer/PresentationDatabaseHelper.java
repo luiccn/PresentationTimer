@@ -127,8 +127,8 @@ public class PresentationDatabaseHelper {
                 }
             }
         }
-        public void updatePresentation(int presentationId ,String presentationName, String stepName, int step,int duration,
-                                       String annotation,int color){
+        public void updateStep(int presentationId, String presentationName, String stepName, int step, int duration,
+                               String annotation, int color){
             ContentValues values = new ContentValues();
             values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, presentationName);
             values.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, stepName);
@@ -140,6 +140,18 @@ public class PresentationDatabaseHelper {
                     PRESENTATION_TABLE_COLUMN_STEP +" = ?", new String[] {String.valueOf(presentationId),String.valueOf(step)});
             Log.d("New NAME", stepName);
         }
+        public void updatePresentation(int presentationId, String presentationName, String stepName, int step, int duration,
+                           String annotation, int color){
+        ContentValues values = new ContentValues();
+        values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, presentationName);
+        values.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, stepName);
+        values.put(PRESENTATION_TABLE_COLUMN_DURATION, duration);
+        values.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, annotation);
+        values.put(PRESENTATION_TABLE_COLUMN_COLOR, color);
+
+        database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?" , new String[] {String.valueOf(presentationId)});
+        Log.d("New NAME", stepName);
+    }
          public void deletePresentation(String id) {
              String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";
              database.execSQL(deleteQuery);

@@ -100,8 +100,8 @@ public class CreateStep extends Activity {
             databaseHelper.insertNewStep(current_presentation, step);
         }
         else{
-            databaseHelper.updatePresentation(current_presentation.getId(),current_presentation.getName(),
-                    name,current_step.getId(),duration,text,
+            databaseHelper.updateStep(current_presentation.getId(), current_presentation.getName(),
+                    name, current_step.getId(), duration, text,
                     color);
         }
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(current_presentation.getId()));
