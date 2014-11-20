@@ -1,5 +1,5 @@
 # Presentation Timer
-Leonardo Neves(github:lrmneves) and Luiz Carlos Ciafrino(github:luicnn)
+Leonardo Neves(github:lrmneves) and Luiz Carlos Ciafrino(github:luiccn)
 
 This project was part of the Software for Smartphones class taught by professor Sérgio Barbosa Villas-Boas. For the project, we were supposed to come up with an idea and implement it on Android or iOS. 
 
