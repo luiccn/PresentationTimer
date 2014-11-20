@@ -10,7 +10,7 @@
     <string name="finish_presentation">Create new</string>
     <string name="title_activity_create_edit_presentation">CreateEditPresentation</string>
     <string name="hello_world">Hello world!</string>
-    <string name="presentation_name_hint">My presentation</string>
+    <string name="presentation_name_hint"></string>
     <string name="create_step_text">New Step</string>
     <string name="title_activity_create_step">CreateStep</string>
     <string name="step_name_hint">My step</string>
@@ -18,8 +18,8 @@
     <string name="title_activity_presentation_screen">PresentationScreen</string>
     <string name="finish_step">Finish step</string>
     <string name="new_name_hint">New presentation name</string>
-    <string name="start">Start</string>
+    <string name="start">Start/Restart</string>
     <string name="stop">Stop</string>
-    <string name="pause">Pause</string>
+    <string name="pause">Pause/Resume</string>
 
 </resources>

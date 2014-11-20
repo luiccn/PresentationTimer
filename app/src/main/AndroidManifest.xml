@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ciafrino.presentationtimer" >
     <service android:name="com.alexfu.countdownview.core.TimerService"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".Values"
@@ -9,6 +10,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
 
         <activity
             android:name=".PresentationsList"

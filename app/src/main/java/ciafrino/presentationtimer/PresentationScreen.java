@@ -1,13 +1,16 @@
 package ciafrino.presentationtimer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +30,7 @@ public class PresentationScreen extends Activity {
     Timer full_timer = null;
     Timer partial_timer = null;
     long dur;
+    Vibrator v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +43,15 @@ public class PresentationScreen extends Activity {
         partial_progress = (ProgressBar) findViewById(R.id.progressBar2);
 
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
+        TextView t = (TextView) findViewById(R.id.presentationName);
+        t.setText(current_presentation.getName());
         Log.d("Presentation screen", current_presentation.getName().toString());
         stepList = current_presentation.getSteps_list();
         for (Step step : stepList){
             Log.d("Presentation screen", "step: " + step.getName().toString() + "color " + step.getText().toString() + " duration: " + String.valueOf(step.getDuration()));
             full_duration = full_duration+step.getDuration();
         }
-
+        v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
         setTotalTimer();
 
 
@@ -110,7 +116,13 @@ public class PresentationScreen extends Activity {
                 public void onFinish() {
                     if (iter.hasNext()) {
                         step = iter.next();
+                        v.vibrate(500);
+
                         setPartialTimer();
+                    }
+                    else{
+                        v.vibrate(2000);
+
                     }
                 }
             };

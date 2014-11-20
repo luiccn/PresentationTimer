@@ -87,8 +87,8 @@ public class PresentationDatabaseHelper {
             contentValues.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, p.getName());
             contentValues.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, "Intro");
             contentValues.put(PRESENTATION_TABLE_COLUMN_STEP, 1);
-            contentValues.put(PRESENTATION_TABLE_COLUMN_DURATION, 0);
-            contentValues.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, "");
+            contentValues.put(PRESENTATION_TABLE_COLUMN_DURATION, 5);
+            contentValues.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, "This is your intro for "+p.getName());
             contentValues.put(PRESENTATION_TABLE_COLUMN_COLOR, "");
 
             database.insert(TABLE_NAME, null, contentValues);

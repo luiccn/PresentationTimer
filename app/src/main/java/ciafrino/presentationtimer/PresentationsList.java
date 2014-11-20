@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -96,23 +97,37 @@ public class PresentationsList extends Activity {
 	
 	private void newPresentationButtonHandler() {
         new_presentation_name = (EditText) findViewById(R.id.new_presentation_name);
-        c = this;
 
-		findViewById(R.id.EnterPays_addAtomPayment).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
+            c = this;
 
-                Presentation presentation = new Presentation(new_presentation_name.getText().toString(), 0);
-                presentation.setId(databaseHelper.insertPresentation(presentation));
-                if(presentation.getId() == -1) throw new IllegalStateException();
+            findViewById(R.id.EnterPays_addAtomPayment).setOnClickListener(new OnClickListener() {
 
-                Intent intent = new Intent(c, CreateEditPresentation.class);
-                intent.putExtra("presentation_id",presentation.getId());
-                startActivity(intent);
-                adapter.insert(presentation, 0);
+                @Override
+                public void onClick(View v) {
+                    String text =  ((EditText) findViewById(R.id.new_presentation_name)).getText().toString();
+                    Log.d("NAME",text);
+                    if(!text.trim().equals("")) {
+                        Presentation presentation = new Presentation(new_presentation_name.getText().toString(), 0);
+                        presentation.setId(databaseHelper.insertPresentation(presentation));
+                        if (presentation.getId() == -1) throw new IllegalStateException();
 
-            }
-		});
+                        Intent intent = new Intent(c, CreateEditPresentation.class);
+                        intent.putExtra("presentation_id", presentation.getId());
+                        startActivity(intent);
+                        adapter.insert(presentation, 0);
+                    }else{
+                        AlertDialog alertDialog = new AlertDialog.Builder(c).create();
+                        alertDialog.setTitle("No Name for Presentation");
+                        alertDialog.setMessage("Please give a name to your presentation");
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Do Nothing
+                            }
+                        });
+                        alertDialog.show();
+                    }
+
+                }
+            });
 	}
 }
