@@ -10,14 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class CreateEditPresentation extends Activity {
 
-    EditText new_presentation_name;
     Presentation current_presentation;
-    Presentation presentation;
     PresentationDatabaseHelper databaseHelper;
     StepListAdapter adapter;
     Step currentStep;
@@ -31,6 +30,8 @@ public class CreateEditPresentation extends Activity {
         current_presentation = databaseHelper.getPresentationbyID(presentation_id);
         current_presentation.setSteps_list(databaseHelper.getPresentationSteps(presentation_id));
         setupListViewAdapter();
+        TextView name = (TextView) findViewById(R.id.pname);
+        name.setText(current_presentation.getName());
     }
 
 
@@ -92,6 +93,37 @@ public class CreateEditPresentation extends Activity {
 
         ListView stepListView = (ListView)findViewById(R.id.steps_list);
         stepListView.setAdapter(adapter);
+    }
+    public void onNameClickHandler(View v){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Change Name");
+        alert.setMessage("Edit the name below");
+
+        final EditText input = new EditText(this);
+        input.setText(current_presentation.getName());
+
+
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+                current_presentation.setName(value);
+                databaseHelper.updatePresentationName(current_presentation);
+                TextView name = (TextView) findViewById(R.id.pname);
+                name.setText(current_presentation.getName());
+
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 
 

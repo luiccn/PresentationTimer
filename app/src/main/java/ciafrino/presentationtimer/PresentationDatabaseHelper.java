@@ -140,17 +140,13 @@ public class PresentationDatabaseHelper {
                     PRESENTATION_TABLE_COLUMN_STEP +" = ?", new String[] {String.valueOf(presentationId),String.valueOf(step)});
             Log.d("New NAME", stepName);
         }
-        public void updatePresentation(int presentationId, String presentationName, String stepName, int step, int duration,
-                           String annotation, int color){
+        public void updatePresentationName(Presentation p){
         ContentValues values = new ContentValues();
-        values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, presentationName);
-        values.put(PRESENTATION_TABLE_COLUMN_STEP_NAME, stepName);
-        values.put(PRESENTATION_TABLE_COLUMN_DURATION, duration);
-        values.put(PRESENTATION_TABLE_COLUMN_ANNOTATION, annotation);
-        values.put(PRESENTATION_TABLE_COLUMN_COLOR, color);
+        values.put(PRESENTATION_TABLE_COLUMN_PRESENTATION_NAME, p.getName());
 
-        database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?" , new String[] {String.valueOf(presentationId)});
-        Log.d("New NAME", stepName);
+
+        database.update(TABLE_NAME,values,PRESENTATION_TABLE_COLUMN_ID + " = ?" , new String[] {String.valueOf(p.getId())});
+
     }
          public void deletePresentation(String id) {
              String deleteQuery = "DELETE FROM "+ TABLE_NAME + " where " + PRESENTATION_TABLE_COLUMN_ID + "= '" + id+"';";
