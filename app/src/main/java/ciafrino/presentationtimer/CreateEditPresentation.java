@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
 public class CreateEditPresentation extends Activity {
 
+    EditText new_presentation_name;
     Presentation current_presentation;
+    Presentation presentation;
     PresentationDatabaseHelper databaseHelper;
     StepListAdapter adapter;
     Step currentStep;
@@ -99,4 +102,6 @@ public class CreateEditPresentation extends Activity {
         intent.putExtra("step_id",-1);
         startActivity(intent);
     }
+
+
 }

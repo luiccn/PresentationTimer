@@ -3,6 +3,7 @@ package ciafrino.presentationtimer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +33,7 @@ public class PresentationScreen extends Activity {
     Timer full_timer = null;
     Timer partial_timer = null;
     long dur;
+    int final_text_color;
     Vibrator v;
 
     @Override
@@ -60,7 +64,7 @@ public class PresentationScreen extends Activity {
     }
 
     public void PausePresentationOnClickHandler(View v) {
-        TextView text = (TextView) findViewById(R.id.start_button);
+        TextView text = (TextView) findViewById(R.id.pause_button);
         if(full_timer != null && partial_timer != null && full_timer.isPaused()) {
             partial_timer.resume();
             full_timer.resume();
@@ -76,6 +80,7 @@ public class PresentationScreen extends Activity {
 
     public void setTotalTimer(){
         full_timer = new Timer(full_duration*1000, 1, false) {
+            TextView totaltime = (TextView) findViewById(R.id.total);
             @Override
             public void onTick(long millisUntilFinished) {
                 long dur = 1000*full_duration;
@@ -83,8 +88,9 @@ public class PresentationScreen extends Activity {
 
                 if(mp == 99){mp+=1;};
 
-                full_progress.setProgress(mp);
 
+                full_progress.setProgress(mp);
+                totaltime.setText("You have "+String.valueOf(millisUntilFinished/1000)+"s to finish the presentation");
             }
 
             @Override
@@ -96,10 +102,14 @@ public class PresentationScreen extends Activity {
 
 
 
+
+
     }
     public void setPartialTimer(){
 
+
         getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
+        final TextView partialtext = (TextView) findViewById(R.id.stepName);
 
         Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
 
@@ -112,7 +122,7 @@ public class PresentationScreen extends Activity {
                     if (mp == 99) {
                         mp += 1;
                     }
-
+                    partialtext.setText("You have "+String.valueOf(millisUntilFinished/1000)+"s on this step");
                     partial_progress.setProgress(mp);
 
                 }
@@ -142,22 +152,39 @@ public class PresentationScreen extends Activity {
 
     }
     public void StartPresentationOnClickHandler(View v) throws InterruptedException {
+        TextView pause = (TextView) findViewById(R.id.pause_button);
+        TextView start = (TextView) findViewById(R.id.start_button);
 
-            iter = stepList.iterator();
+        iter = stepList.iterator();
             step = null;
             if(iter.hasNext()) {
                 step = iter.next();
+
+                int r = 255 - Color.red(step.getColor());
+                int g = 255 - Color.blue(step.getColor());
+                int b = 255 - Color.green(step.getColor());
+                int final_text_color = Color.rgb(r,g,b);
+                TextView pname = (TextView) findViewById(R.id.presentationName);
                 TextView sname = (TextView) findViewById(R.id.stepName);
+                TextView totaltime = (TextView) findViewById(R.id.total);
                 sname.setText(step.getName());
                 TextView description  = (TextView) findViewById(R.id.description);
                 description.setText(step.getText());
+                description.setTextColor(final_text_color);
+                sname.setTextColor(final_text_color);
+                pname.setTextColor(final_text_color);
+                totaltime.setTextColor(final_text_color);
 
             }
             if (partial_timer != null){
+                pause.setText("Pause");
+                start.setText("Restart");
                 partial_timer.cancel();
                 partial_timer = null;
             }
             if (full_timer != null){
+                pause.setText("Pause");
+                start.setText("Restart");
                 full_timer.cancel();
                 full_timer = null;
             }
@@ -165,6 +192,7 @@ public class PresentationScreen extends Activity {
             setPartialTimer();
 
         }
+
 
 
 

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ public class CreateStep extends Activity {
     Button finish_button;
     EditText step_name;
     EditText step_text;
-    SeekBar step_duration;
+    NumberPicker step_duration;
     Step current_step;
     Presentation current_presentation;
     PresentationDatabaseHelper databaseHelper;
@@ -46,37 +47,23 @@ public class CreateStep extends Activity {
         finish_button = (Button) findViewById(R.id.finish_button);
         step_name = (EditText) findViewById(R.id.step_name);
         step_text = (EditText) findViewById(R.id.step_text);
-        step_duration = (SeekBar) findViewById(R.id.step_duration);
-        step_duration_number = (TextView) findViewById(R.id.step_duration_number);
+        step_duration = (NumberPicker) findViewById(R.id.step_duration);
+        step_duration.setMaxValue(300);
+        step_duration.setMinValue(1);
+        step_duration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                picker.setValue(newVal);
+            }
+        });
 
         current_step =  databaseHelper.getStep(presentation_id,step_id);
         if(current_step != null){
             picker.setColor(current_step.getColor());
             step_name.setText(current_step.getName());
             step_text.setText(current_step.getText());
-            step_duration_number.setText(String.valueOf(current_step.getDuration()));
+            step_duration.setValue(current_step.getDuration());
         }
-
-        step_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                p=progress;
-                step_duration_number.setText(String.valueOf(p*3));
-
-            }
-        });
-
-
-
     }
 
 
@@ -90,7 +77,7 @@ public class CreateStep extends Activity {
     }
 
     public void FinishStepOnClickHandler(View v) {
-        int duration = p*3;
+        int duration = step_duration.getValue();
         int color = picker.getColor();
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();

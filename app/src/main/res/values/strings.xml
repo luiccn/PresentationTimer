@@ -18,9 +18,9 @@
     <string name="title_activity_presentation_screen">PresentationScreen</string>
     <string name="finish_step">Finish step</string>
     <string name="new_name_hint">New presentation name</string>
-    <string name="start">Start/Restart</string>
+    <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="pause">Pause/Resume</string>
+    <string name="pause">Pause</string>
     <string name="totalLabel">Total</string>
     <string name="stepNameLabel">This is your step progress</string>
     <string name="description">Press Start to start your presentation</string>

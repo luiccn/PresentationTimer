@@ -33,32 +33,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/step_duration"
-        android:layout_below="@id/step_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/step_text"
-        android:layout_alignEnd="@+id/step_text" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/step_duration_number"
-        android:layout_below="@+id/step_duration"
-        android:layout_centerHorizontal="true" />
-
-
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/picker"
-        android:layout_below="@id/step_duration_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/finish_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/finish_button"
+        android:layout_alignStart="@+id/finish_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -69,7 +51,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-
+    <NumberPicker
+        android:scrollbarStyle="insideInset"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/step_duration"
+        android:layout_toStartOf="@+id/picker"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/picker" />
 
 
 </RelativeLayout>
