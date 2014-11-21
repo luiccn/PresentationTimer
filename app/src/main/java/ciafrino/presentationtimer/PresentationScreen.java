@@ -90,7 +90,7 @@ public class PresentationScreen extends Activity {
 
 
                 full_progress.setProgress(mp);
-                totaltime.setText("You have "+String.valueOf(millisUntilFinished/1000)+"s to finish the presentation");
+                totaltime.setText("You have "+String.valueOf(millisUntilFinished/1000)+"s left");
             }
 
             @Override
