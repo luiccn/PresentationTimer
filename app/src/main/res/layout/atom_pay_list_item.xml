@@ -21,7 +21,7 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/app_name"
         android:onClick="removePresentationOnClickHandler"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_delete" />
 
     <ImageButton
         android:id="@+id/atomPay_value"
@@ -29,5 +29,5 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/app_name"
         android:onClick="editPresentationOnClickHandler"
-        android:src="@android:drawable/ic_menu_preferences" />
+        android:src="@android:drawable/ic_menu_edit" />
 </LinearLayout>

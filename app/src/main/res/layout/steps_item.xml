@@ -21,6 +21,6 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/app_name"
         android:onClick="removeStepOnClickHandler"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_delete" />
 
 </LinearLayout>
