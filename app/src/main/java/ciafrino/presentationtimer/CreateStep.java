@@ -22,6 +22,7 @@ public class CreateStep extends Activity {
     EditText step_name;
     EditText step_text;
     NumberPicker step_duration;
+    NumberPicker step_duration_minutes;
     Step current_step;
     Presentation current_presentation;
     PresentationDatabaseHelper databaseHelper;
@@ -48,9 +49,19 @@ public class CreateStep extends Activity {
         step_name = (EditText) findViewById(R.id.step_name);
         step_text = (EditText) findViewById(R.id.step_text);
         step_duration = (NumberPicker) findViewById(R.id.step_duration);
-        step_duration.setMaxValue(300);
-        step_duration.setMinValue(1);
+        step_duration.setMaxValue(59);
+        step_duration.setMinValue(0);
         step_duration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                picker.setValue(newVal);
+            }
+        });
+
+        step_duration_minutes = (NumberPicker) findViewById(R.id.step_duration_minute);
+        step_duration_minutes.setMaxValue(60);
+        step_duration_minutes.setMinValue(0);
+        step_duration_minutes.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 picker.setValue(newVal);
@@ -62,7 +73,8 @@ public class CreateStep extends Activity {
             picker.setColor(current_step.getColor());
             step_name.setText(current_step.getName());
             step_text.setText(current_step.getText());
-            step_duration.setValue(current_step.getDuration());
+            step_duration.setValue(current_step.getDuration()%60);
+            step_duration_minutes.setValue(current_step.getDuration()/60);
         }
     }
 
@@ -77,7 +89,7 @@ public class CreateStep extends Activity {
     }
 
     public void FinishStepOnClickHandler(View v) {
-        int duration = step_duration.getValue();
+        int duration = step_duration.getValue()+(60*step_duration_minutes.getValue());
         int color = picker.getColor();
         String name = step_name.getText().toString();
         String text = step_text.getText().toString();
