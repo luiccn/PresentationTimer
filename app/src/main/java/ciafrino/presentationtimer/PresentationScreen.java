@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -109,7 +107,7 @@ public class PresentationScreen extends Activity {
 
 
         getWindow().getDecorView().getRootView().setBackgroundColor(step.getColor());
-        final TextView partialtext = (TextView) findViewById(R.id.stepName);
+        final TextView partialtext = (TextView) findViewById(R.id.stepInfo);
 
         Log.d("iter", "step: " + step.getName().toString() + "color " + String.valueOf(step.getColor()) + " duration: " + String.valueOf(step.getDuration()));
 
@@ -132,10 +130,21 @@ public class PresentationScreen extends Activity {
                     if (iter.hasNext()) {
                         step = iter.next();
                         v.vibrate(500);
+                        TextView pname = (TextView) findViewById(R.id.presentationName);
+                        TextView sinfo = (TextView) findViewById(R.id.stepInfo);
                         TextView sname = (TextView) findViewById(R.id.stepName);
+                        TextView totaltime = (TextView) findViewById(R.id.total);
                         sname.setText(step.getName());
+                        int final_text_color = calculateColor(Color.red(step.getColor()),Color.blue(step.getColor()),Color.green(step.getColor()));
+
                         TextView description  = (TextView) findViewById(R.id.description);
                         description.setText(step.getText());
+
+                        description.setTextColor(final_text_color);
+                        sname.setTextColor(final_text_color);
+                        pname.setTextColor(final_text_color);
+                        totaltime.setTextColor(final_text_color);
+                        sinfo.setTextColor(final_text_color);
 
                         setPartialTimer();
                     }
@@ -151,22 +160,43 @@ public class PresentationScreen extends Activity {
         }
 
     }
+
+    public int calculateColor(int red,int blue, int green){
+
+        int r = 255 - red;
+        int b = 255 - blue;
+        int g = 255 - green;
+
+
+
+        float [] hsv = new float[3];
+        Color.colorToHSV(Color.rgb(r,g,b), hsv);
+        float h = hsv[0];
+        hsv[0] = Math.abs(180 - hsv[0]);
+        if( Math.abs(h - hsv[0]) > 150){
+            hsv[1] = Math.abs((float)1.0 - hsv[1]);
+        }
+        int color = Color.HSVToColor(hsv);
+
+        return color;
+    }
+
     public void StartPresentationOnClickHandler(View v) throws InterruptedException {
         TextView pause = (TextView) findViewById(R.id.pause_button);
         TextView start = (TextView) findViewById(R.id.start_button);
 
         iter = stepList.iterator();
             step = null;
+        int final_text_color;
             if(iter.hasNext()) {
                 step = iter.next();
 
-                int r = 255 - Color.red(step.getColor());
-                int g = 255 - Color.blue(step.getColor());
-                int b = 255 - Color.green(step.getColor());
-                int final_text_color = Color.rgb(r,g,b);
+
+                final_text_color = calculateColor(Color.red(step.getColor()),Color.blue(step.getColor()),Color.green(step.getColor()));
                 TextView pname = (TextView) findViewById(R.id.presentationName);
                 TextView sname = (TextView) findViewById(R.id.stepName);
                 TextView totaltime = (TextView) findViewById(R.id.total);
+                TextView sinfo = (TextView) findViewById(R.id.stepInfo);
                 sname.setText(step.getName());
                 TextView description  = (TextView) findViewById(R.id.description);
                 description.setText(step.getText());
@@ -174,6 +204,8 @@ public class PresentationScreen extends Activity {
                 sname.setTextColor(final_text_color);
                 pname.setTextColor(final_text_color);
                 totaltime.setTextColor(final_text_color);
+                sinfo.setTextColor(final_text_color);
+
 
             }
             if (partial_timer != null){
@@ -195,9 +227,6 @@ public class PresentationScreen extends Activity {
 
 
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -216,14 +245,6 @@ public class PresentationScreen extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
 
 
 }
