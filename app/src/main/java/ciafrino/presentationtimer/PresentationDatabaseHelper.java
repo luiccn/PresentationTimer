@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class PresentationDatabaseHelper {
 
+    private  SQLiteDatabase database;
 
         private static final String TAG = PresentationDatabaseHelper.class.getSimpleName();
 
@@ -37,11 +38,11 @@ public class PresentationDatabaseHelper {
 
     private static PresentationDatabaseHelper thisDatabase = null;
     private DatabaseOpenHelper openHelper;
-    private SQLiteDatabase database;
     private int lastRow = -1;
 
         public static PresentationDatabaseHelper getDatabaseHelper(Context aContext){
             if (thisDatabase == null){
+
                 thisDatabase = new PresentationDatabaseHelper(aContext);
             }
             return thisDatabase;
@@ -51,13 +52,19 @@ public class PresentationDatabaseHelper {
         private PresentationDatabaseHelper(Context aContext) {
 
             openHelper = new DatabaseOpenHelper(aContext);
-            database = openHelper.getWritableDatabase();
+            database = aContext.openOrCreateDatabase(DATABASE_NAME,
+                    Context.MODE_PRIVATE, null);
+            try{
+                createTable();
+            }catch(Exception e){
 
+            }
             lastRow = getLastRow();
 
         }
         public int getLastRow(){
             String getIdQuery = "SELECT MAX("+PRESENTATION_TABLE_COLUMN_ID+") FROM " + TABLE_NAME;
+            Log.d("luizquery",getIdQuery);
             Cursor c = database.rawQuery(getIdQuery, null);
             if (c.getCount() != 0){
                 c.moveToNext();
@@ -85,6 +92,8 @@ public class PresentationDatabaseHelper {
             Log.d(TAG, "onCreate SQL: " + buildSQL);
 
             database.execSQL(buildSQL);
+
+
         }
         public int insertPresentation(Presentation p){
             ContentValues contentValues = new ContentValues();
@@ -244,7 +253,6 @@ public class PresentationDatabaseHelper {
             public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
                 // Database schema upgrade code goes here
                 dropTable();
-
                 onCreate(sqLiteDatabase);               // create the table from the beginning
             }
         }

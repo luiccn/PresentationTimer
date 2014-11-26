@@ -20,9 +20,12 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:support-v4:21.0.+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile files('libs/timer.jar')
-    compile files('/Users/lrmneves/workspace/Luiz/PresentationTimer/libs/timer.jar')
-    compile files('C:/Users/Avell B154 PLUS/PresentationTimer/libs/timer.jar')
+
+
+
 }

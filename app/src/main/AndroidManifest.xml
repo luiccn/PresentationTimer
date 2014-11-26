@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ciafrino.presentationtimer" >
-    <service android:name="com.alexfu.countdownview.core.TimerService"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <service android:name="com.alexfu.countdownview.core.TimerService" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".Values"
@@ -10,20 +12,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <uses-sdk
             android:minSdkVersion="11"
             android:targetSdkVersion="15" />
 
-
         <activity
             android:name=".PresentationsList"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CreateEditPresentation"
@@ -37,6 +33,14 @@
         <activity
             android:name=".PresentationScreen"
             android:label="@string/title_activity_presentation_screen" >
+        </activity>
+        <activity
+            android:name=".Splash"
+            android:label="@string/title_activity_splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

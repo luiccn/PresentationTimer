@@ -24,5 +24,6 @@
     <string name="totalLabel">Total</string>
     <string name="stepNameLabel">This is your step progress</string>
     <string name="description">Press Start to start your presentation</string>
+    <string name="title_activity_splash">Splash</string>
 
 </resources>
